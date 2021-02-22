@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+# fotovagg (Fotovägg in swedish means photo wall), this app is an image carousel fetching images from Flickr
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+It displays x amount of images for x amount of seconds. This procedure loops until
+the last 'page' is reached for a specific term based on user search term. 
 
-## Available Scripts
+# The way in which the images are displayed
 
-In the project directory, you can run:
+The "carousel" starts automatically. 
+(Starting theme of images based on the term "Semla")
 
-### `yarn start`
+	1. X amount of images are displayed  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+	2. fading in one by one every x amount of ms. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+	3. Present for x amount of seconds, 
 
-### `yarn test`
+	4. A new fetch is done to make sure is the latest updated data from Flickr
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+	Next X amount of images are displayed...and so on.
 
-### `yarn build`
+	...This goes on til the last page/image and starts all over again
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  If new search, the loop starts again from phase 1. 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+# Flickr Api Overview: 
+https://www.flickr.com/services/api/misc.overview.html
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Flickr Api index: 
+https://www.flickr.com/services/api/
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Method used in this app is flickr.photos.search: 
+https://www.flickr.com/services/api/flickr.photos.search.html
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# Tech
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Created with React create-react-app.
+Using functional components, Hooks like Context, useState, useEffect, useRef
 
-## Learn More
+Notes:
+	React Context really necessary?
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Downside: The fade in with CSS is dependent of the x amount of seconds one "page" shows with setTimeout. 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
