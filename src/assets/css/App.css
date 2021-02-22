@@ -1,0 +1,60 @@
+.container {
+  background: lightgray; 
+  display: flex; /* or inline-flex */
+  flex-flow: row wrap;
+  justify-content: center; 
+  align-items: center; 
+  padding: 2rem; 
+}
+li.frame {  
+  background: #fff; 
+  border: #000 solid 4px; 
+  margin: 0.3rem; 
+  list-style: none; 
+}
+.photo {
+  visibility: hidden; 
+  opacity: 0;
+  max-width: 70px;
+  height: auto;
+  margin: 0.3rem; 
+
+  animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+  animation-name: fadeInOpacity;
+
+  
+}
+img[class*="img"] {
+  visibility: visible; 
+  border: #fff solid 20px; 
+}
+.img-0 {
+  animation-delay: .3s;
+}
+.img-1 {
+  animation-delay: .6s;
+}
+.img-2 {
+  animation-delay: .90s;
+}
+.img-3 {
+  animation-delay: 1.2s;
+}
+.img-4 {
+  animation-delay: 1.5s;
+}
+.img-5 {
+  animation-delay: 1.8s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
