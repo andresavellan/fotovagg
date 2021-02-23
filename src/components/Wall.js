@@ -8,7 +8,7 @@ function Wall() {
     console.log('Counter...')
     const counter = setTimeout(() => {
       page === totalPages ? setPage(1) : setPage(page + 1);
-    }, 7000)
+    }, 5000)
     return () => {
       clearTimeout(counter)
       console.log('Clear counter...')
@@ -25,4 +25,4 @@ function Wall() {
   )
 }
 
-export const MemoizedWall = React.memo(Wall)
+export default Wall

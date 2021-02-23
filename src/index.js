@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import FotovaggContextProvider from './context/FotovaggContext';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <FotovaggContextProvider>
+      <App />
+    </FotovaggContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

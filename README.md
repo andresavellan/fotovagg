@@ -1,4 +1,4 @@
-# fotovagg (Fotovägg in swedish means photo wall), this app is an image carousel fetching images from Flickr
+# fotovagg, this app is an image carousel fetching images from Flickr
 
 It displays x amount of images for x amount of seconds. This procedure loops until
 the last 'page' is reached for a specific term based on user search term. 

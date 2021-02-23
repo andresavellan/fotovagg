@@ -30,4 +30,4 @@ function Search() {
   )
 }
 
-export const MemoizedSearch = React.memo(Search)
+export default Search;
