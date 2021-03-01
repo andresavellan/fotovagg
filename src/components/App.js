@@ -1,13 +1,14 @@
-
+import { useContext } from 'react'
 import Search from './Search';
 import Wall from './Wall'
-import './../assets/css/App.css';
+import './../assets/css/main.scss';
+import { FotovaggContext } from './../context/FotovaggContext';
 
 function App() {
-  console.log('--APP COMPONENT')
+  const { render } = useContext(FotovaggContext);
 
   return (
-    <div className="App">
+    <div className={"app " + render}>
       <Search />
       <Wall />
     </div>

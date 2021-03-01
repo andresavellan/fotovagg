@@ -1,66 +1,81 @@
 import React, { useEffect, useState, createContext, useRef } from 'react';
+import loader from './../assets/img/circles.svg'
 
 export const FotovaggContext = createContext();
 
 const FotovaggContextProvider = (props) => {
+  //States 
   const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [page, setPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('Semla');
-  const [totalPages, setTotalPages] = useState(1)
+  const [render, setRender] = useState(false);
+  //Refs
+  const isLoadedRef = useRef(false);
+  const pageRef = useRef(1);
+  const searchTermRef = useRef('Semla');
+  const totalPagesRef = useRef();
+  const newPhotosRef = useRef([]);
+  const timerRef = useRef();
 
-  const apiUrl = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=d83d78b867afc81cee8e684569c62d85&content_type=1&media=photos&per_page=6&page=${page}&text=${searchTerm}&format=json&nojsoncallback=1`;
-
-  const [currentPhotos, setCurrentPhotos] = useState([]);
-
-  console.log(`--FOTOVAGG-CONTEXT searchTerm: ${searchTerm} Page: ${page}`)
-
-  // Note: the empty deps array [] means
-  // this useEffect will run once
-  // similar to componentDidMount()
+  //Fetch data. 1st round show without pause, second and forward with pause.
   useEffect(() => {
-    fetch(apiUrl)
+
+    fetch(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=d83d78b867afc81cee8e684569c62d85&content_type=1&media=photos&per_page=6&page=${pageRef.current}&text=${searchTermRef.current}&format=json&nojsoncallback=1`)
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result)
+          newPhotosRef.current = result.photos.photo;
+          totalPagesRef.current = result.photos.pages;
+          isLoadedRef.current = true;
 
+          if (pageRef.current === 1) {
+            pageRef.current = 2;
+            setRender(render => !render);
+            //pauses from second round onwards
+          } else if (pageRef.current > 1) {
+            timerRef.current = setTimeout(() => {
+              if (pageRef.current === totalPagesRef.current) {
+                pageRef.current = 1;
+              } else {
+                pageRef.current += 1;
+              }
+              setRender(render => !render);
+            }, 7000);
 
-          const newPhotos = result.photos.photo;
-          setCurrentPhotos([...newPhotos])
-          setTotalPages(result.photos.pages)
-          setIsLoaded(true); ////OBBS SWITCH PLACES?
+          }
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
         (error) => {
-          setIsLoaded(true);
+          isLoadedRef.current = true;
           setError(error);
         }
       )
-  }, [apiUrl])
-
-
-  const newSearchTerm = (searching) => {
-    setSearchTerm(searching)
+    return () => {
+      clearTimeout(timerRef.current);
+    }
+  }, [render]);
+  //search function from search component. Reset and ads new search term.
+  const newSearch = (newSearchTerm) => {
+    clearTimeout(timerRef.current);
+    isLoadedRef.current = false;
+    pageRef.current = 1;
+    searchTermRef.current = newSearchTerm;
+    setRender(render => !render);
   }
 
-
-
   if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
+    return (
+      <div className="error">
+        <p>Error: {error.message}</p>
+      </div>
+    )
+  } else if (isLoadedRef.current !== true) {
+    return <div className="loader" ><img src={loader} width="160" alt="loader" /></div>;
   } else {
     return (
       <FotovaggContext.Provider value={
         {
-          newSearchTerm,
-          currentPhotos,
-          page,
-          setPage,
-          totalPages
+          pageRef,
+          newSearch,
+          newPhotosRef,
+          render
         }
       }>
         {props.children}
@@ -68,5 +83,4 @@ const FotovaggContextProvider = (props) => {
     );
   }
 }
-
 export default FotovaggContextProvider; 
